@@ -24,6 +24,5 @@
   },
   "_source": "https://github.com/earlonrails/angular-chartjs-directive.git",
   "_target": "^1.0.0",
-  "_originalSource": "angular-chartjs-directive",
-  "_direct": true
+  "_originalSource": "https://github.com/earlonrails/angular-chartjs-directive.git"
 }

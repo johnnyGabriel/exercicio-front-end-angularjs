@@ -1,0 +1,22 @@
+{
+  "name": "exercicio-front-end-angularjs",
+  "homepage": "https://github.com/johnnyGabriel/exercicio-front-end-angularjs",
+  "authors": [
+    "johnnypestana <johnny_gabriel@outlook.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-chartjs-directive": "https://github.com/earlonrails/angular-chartjs-directive.git#^1.0.0",
+    "Chart.js": "chartjs#1.0.1",
+    "angular": "1.3.12"
+  }
+}
