@@ -80,6 +80,7 @@ angular.module('DashboardApp', ['angular-chartist'])
 
                 $scope.groupsSubsChart = groupsChartData
 
+                $scope.pendingSubsChart = payTypesChartData[ PENDING ]
                 $scope.lostSubsChart = payTypesChartData[ LOST ]
                 $scope.maintainedSubsChart = payTypesChartData[ MAINTAINED ]
                 $scope.conqueredSubsChart = payTypesChartData[ CONQUERED ]
