@@ -13,22 +13,6 @@ angular.module('DashboardApp', ['angular-chartist'])
 
         }
 
-        function groupById( groups, id ) {
-
-            function filter(id) {
-
-                return groups.filter(function( item ) {
-
-                    return item.group.id == id
-
-                })
-
-            }
-
-            return arguments.length == 1 ? filter : filter( id )
-
-        }
-
         function chartGroupPayType( group ) {
 
             var initialValue = {
@@ -85,10 +69,7 @@ angular.module('DashboardApp', ['angular-chartist'])
                 $scope.maintainedSubsChart = payTypesChartData[ MAINTAINED ]
                 $scope.conqueredSubsChart = payTypesChartData[ CONQUERED ]
 
-                return [ payTypesChartData, groupsChartData ]
-
             })
-            .then( console.log )
             .catch( err => console.log('ERR', err) )
 
     })
