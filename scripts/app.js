@@ -1,47 +1,70 @@
-angular.module('DashboardApp', [])
+angular.module('DashboardApp', ['angular-chartist'])
 
     .controller('Dashboard', function($scope, $http) {
 
-        const SUBS_STATUS = {
-            PENDING: 1,
-            LOST: 2,
-            MAINTAINED: 8,
-            CONQUERED: 9
-        }
+        const PENDING = 1
+        const LOST = 2
+        const MAINTAINED = 8
+        const CONQUERED = 9 
 
-        $scope.msg = "lorem ipsum"
-
-        function getSubsStatus( data ) {
+        function getSubsGroups( data ) {
 
             return data['data']['result']['children']
 
         }
 
-        function statusById( status ) {
+        function groupById( groups, id ) {
 
-            return function( id ) {
+            function filter(id) {
 
-                return status.filter(function( item ) {
+                return groups.filter(function( item ) {
 
                     return item.group.id == id
 
-                })[0]
+                })
 
             }
+
+            return arguments.length == 1 ? filter : filter( id )
 
         }
 
-        function formatToCount( status ) {
+        function chartGroupPayType( group ) {
 
-            var initialValue = {}
-
-            initialValue[ status.group.name ] = {
-                _total: status.subscriberCount
+            var initialValue = {
+                labels: [],
+                series: [[]]
             }
 
-            return status.children.reduce(function(acc, el) {
+            return group.children.reduce(function(acc, payType) {
 
-                acc[ status.group.name ][ el.group.name ] = el.subscriberCount
+                acc['labels'].push( payType.group.name )
+                acc['series'][0].push( payType.subscriberCount )
+                return acc
+
+            }, initialValue)
+
+        }
+
+        function chartGroupsPayType( groups ) {
+
+            return groups.reduce(function(acc, group) {
+
+                acc[ group.group.id ] = chartGroupPayType( group )
+                return acc
+
+            }, [])
+
+        }
+
+        function chartGroups( groups ) {
+
+            var initialValue = { labels: [], series: [[]] }
+
+            return groups.reduce(function(acc, group) {
+
+                acc['labels'].push( group.group.name )
+                acc['series'][0].push( group.subscriberCount )
                 return acc
 
             }, initialValue)
@@ -49,18 +72,19 @@ angular.module('DashboardApp', [])
         }
 
         $http.get('http://localhost:8080/data/example-data.js')
-            .then(function( res ) {
+            .then( getSubsGroups )
+            .then(function( groups ) {
 
-                var groups = getSubsStatus( res )
+                var payTypesChartData = chartGroupsPayType( groups )
+                var groupsChartData = chartGroups( groups )
 
-                var byId = statusById( groups )
+                $scope.groupsSubsChart = groupsChartData
 
-                var status = [
-                    byId( SUBS_STATUS['MAINTAINED'] ),
-                    byId( SUBS_STATUS['CONQUERED'] )
-                ]
+                $scope.lostSubsChart = payTypesChartData[ LOST ]
+                $scope.maintainedSubsChart = payTypesChartData[ MAINTAINED ]
+                $scope.conqueredSubsChart = payTypesChartData[ CONQUERED ]
 
-                return status.map( formatToCount )
+                return [ payTypesChartData, groupsChartData ]
 
             })
             .then( console.log )
