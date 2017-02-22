@@ -39,5 +39,5 @@ Instruções para rodar:
 1. Clone o repositório;
 2. Tenha a certeza que possui nodejs e npm instalados na máquina;
 3. Na pasta raiz execute o comando "npm run init" para instalar as dependências;
-4. Execute "npm server" para rodar o servidor local;
+4. Execute "npm start" para rodar o servidor local;
 5. Abra no navegador o endereço fornecido pelo servidor.
